@@ -1,0 +1,18 @@
+2025-04-09 11:16:43 [ERROR]: Registration error: 
+2025-04-09 11:27:28 [ERROR]: Registration error: pool.query is not a function
+2025-04-09 11:27:31 [ERROR]: Registration error: pool.query is not a function
+2025-04-09 12:09:15 [ERROR]: Registration error: relation "employees" does not exist
+2025-04-09 12:14:44 [ERROR]: Registration error: relation "employees" does not exist
+2025-04-09 12:14:55 [ERROR]: Registration error: relation "employees" does not exist
+2025-04-09 12:26:45 [ERROR]: Registration error: Missing credentials for "PLAIN"
+2025-04-09 12:28:45 [ERROR]: Registration error: column "company_email" of relation "employees" does not exist
+2025-04-09 15:52:49 [ERROR]: Registration error: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-22ac7c93b48sm8148215ad.153 - gsmtp
+2025-04-09 15:53:55 [ERROR]: Registration error: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-22ac7cb5527sm8139665ad.173 - gsmtp
+2025-04-09 15:55:26 [ERROR]: Registration error: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-22ac7badb19sm8226405ad.106 - gsmtp
+2025-04-09 15:59:13 [ERROR]: Registration error: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-22ac7b8afeesm8337965ad.73 - gsmtp
+2025-04-09 16:02:48 [ERROR]: Registration error: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-306dd188c8asm1206721a91.49 - gsmtp
