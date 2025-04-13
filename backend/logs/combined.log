@@ -28,3 +28,31 @@
 2025-04-09 17:01:36 [INFO]: Password reset successfully for chandu.km@digitalbanket.ai
 2025-04-10 10:12:51 [INFO]: Employee registered: COM2025IT0000011 | Email: chandukuruboss2003@gmail.com
 2025-04-10 10:13:52 [INFO]: Password reset successfully for chandan.m@digitalbanket.ai
+2025-04-10 15:02:28 [INFO]: Employee registered: COM2025HA0000012 | Email: omusnagansur989@gmail.com
+2025-04-10 15:03:43 [INFO]: Password reset successfully for omkar.sn@digitalbanket.ai
+2025-04-10 16:03:11 [INFO]: Employee registered: COM2025IT0000013 | Email: omsn529@gmail.com
+2025-04-11 10:45:04 [INFO]: Employee registered: COM2025IT0000014 | Email: aadityabossbhat@gmail.com
+2025-04-11 11:05:42 [INFO]: Employee registered: COM2025IT0000015 | Email: aadityabossbhat@gmail.com
+2025-04-11 11:30:22 [INFO]: Employee registered: COM2025IT0000016 | Email: cp7959474@gmail.com
+2025-04-11 11:38:32 [WARN]: Reset password failed: Invalid request or password already set for chandan.m@digitalbanket.ai
+2025-04-11 14:31:18 [INFO]: Password reset link sent to chandan.m@digitalbanket.ai
+2025-04-11 14:31:19 [INFO]: Password reset link sent to chandan.m@digitalbanket.ai
+2025-04-11 15:01:21 [INFO]: Password reset successfully for chandan.m@digitalbanket.ai
+2025-04-11 15:07:29 [INFO]: Employee registered: COM2025IT0000017 | Email: vn4136@gmail.com
+2025-04-11 15:08:04 [ERROR]: Registration error: duplicate key value violates unique constraint "employees_company_email_key"
+2025-04-11 15:08:46 [INFO]: Employee registered: COM2025IT0000019 | Email: ven4136@gmail.com
+2025-04-11 15:17:52 [ERROR]: Reset password error: jwt must be provided
+2025-04-11 15:52:17 [ERROR]: Forgot password error: resetToken is not defined
+2025-04-11 15:52:23 [ERROR]: Forgot password error: resetToken is not defined
+2025-04-11 17:22:44 [INFO]: Employee registered: COM2025IT0000020 | Email: chandukuruboss2003@gmail.com
+2025-04-11 17:23:40 [ERROR]: Reset password error: jwt must be provided
+2025-04-11 17:24:50 [ERROR]: Reset password error: jwt must be provided
+2025-04-11 17:26:50 [INFO]: Password reset successfully for chandankm@digitalblanket.ai
+2025-04-11 18:03:17 [INFO]: Forgot password link sent to personal email: chandukuruboss2003@gmail.com
+2025-04-11 18:04:50 [INFO]: Forgot password link sent to personal email: chandukuruboss2003@gmail.com
+2025-04-11 18:07:05 [INFO]: Forgot password link sent to personal email: chandankm@digitalblanket.ai
+2025-04-11 18:09:06 [INFO]: Forgot password link sent to personal email: chandankm@digitalblanket.ai
+2025-04-11 18:15:37 [INFO]: Forgot password link sent to personal email: chandankm@digitalblanket.ai
+2025-04-11 18:16:49 [INFO]: Forgot password link sent to personal email: chandankm@digitalblanket.ai
+2025-04-11 18:21:46 [INFO]: Forgot password link sent to personal email: chandankm@digitalblanket.ai
+2025-04-11 18:22:47 [INFO]: Forgot password link sent to personal email: chandankm@digitalblanket.ai

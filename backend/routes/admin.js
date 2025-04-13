@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../config/db'); // <- correct import if db is in /config
+const pool = require('../config/db');
 const authenticate = require('../middleware/authenticate');
 const authorizeAdmin = require('../middleware/authorizeAdmin');
 
@@ -29,7 +29,9 @@ const authorizeAdmin = require('../middleware/authorizeAdmin');
  */
 router.get('/users', authenticate, authorizeAdmin, async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM employees');
+    const roles = ['employee', 'Employee', 'manager','Manager'];
+    const result = await pool.query('SELECT * FROM employees WHERE role = ANY($1)', [roles]);
+    console.log('📤 DB Results:', result.rows); 
     res.json(result.rows);
   } catch (err) {
     console.error('[ERROR]: View Users -', err);
@@ -77,12 +79,16 @@ router.put('/user/:id/assign-department', authenticate, authorizeAdmin, async (r
   const { department } = req.body;
   const userId = req.params.id;
 
+  if (!department) {
+    return res.status(400).json({ message: 'Department is required' });
+  }
+
   try {
     await pool.query('UPDATE employees SET department = $1 WHERE employee_id = $2', [department, userId]);
-    res.json({ message: 'Department updated successfully' });
+    res.json({ message: '✅ Department updated successfully' });
   } catch (err) {
     console.error('[ERROR]: Assign Department -', err);
-    res.status(500).json({ message: 'Failed to update department' });
+    res.status(500).json({ message: '❌ Failed to update department' });
   }
 });
 
@@ -116,17 +122,23 @@ router.put('/user/:id/assign-department', authenticate, authorizeAdmin, async (r
  *     responses:
  *       200:
  *         description: Role updated successfully
+ *       400:
+ *         description: Bad Request
  */
 router.put('/user/:id/assign-role', authenticate, authorizeAdmin, async (req, res) => {
   const { role } = req.body;
   const userId = req.params.id;
 
+  if (!role) {
+    return res.status(400).json({ message: 'Role is required' });
+  }
+
   try {
     await pool.query('UPDATE employees SET role = $1 WHERE employee_id = $2', [role, userId]);
-    res.json({ message: 'Role updated successfully' });
+    res.json({ message: '✅ Role updated successfully' });
   } catch (err) {
     console.error('[ERROR]: Assign Role -', err);
-    res.status(500).json({ message: 'Failed to update role' });
+    res.status(500).json({ message: '❌ Failed to update role' });
   }
 });
 
@@ -148,6 +160,8 @@ router.put('/user/:id/assign-role', authenticate, authorizeAdmin, async (req, re
  *     responses:
  *       200:
  *         description: User deleted successfully
+ *       404:
+ *         description: User not found
  *       401:
  *         description: Unauthorized
  *       403:
@@ -156,14 +170,19 @@ router.put('/user/:id/assign-role', authenticate, authorizeAdmin, async (req, re
  *         description: Server error
  */
 router.delete('/user/:id', authenticate, authorizeAdmin, async (req, res) => {
-  const userId = req.params.id;
+  const employeeId = req.params.id;
 
   try {
-    await pool.query('DELETE FROM employees WHERE employee_id = $1', [userId]);
-    res.json({ message: 'User deleted successfully' });
+    const result = await pool.query('DELETE FROM employees WHERE employee_id = $1 RETURNING *', [employeeId]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: '❌ Employee not found' });
+    }
+
+    res.json({ message: '🗑️ Employee deleted successfully' });
   } catch (err) {
-    console.error('[ERROR]: Delete User -', err);
-    res.status(500).json({ message: 'Failed to delete user' });
+    console.error('[ERROR]: Delete Employee -', err);
+    res.status(500).json({ message: '❌ Server error while deleting employee' });
   }
 });
 

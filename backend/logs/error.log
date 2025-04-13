@@ -16,3 +16,9 @@
 535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-22ac7b8afeesm8337965ad.73 - gsmtp
 2025-04-09 16:02:48 [ERROR]: Registration error: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
 535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-306dd188c8asm1206721a91.49 - gsmtp
+2025-04-11 15:08:04 [ERROR]: Registration error: duplicate key value violates unique constraint "employees_company_email_key"
+2025-04-11 15:17:52 [ERROR]: Reset password error: jwt must be provided
+2025-04-11 15:52:17 [ERROR]: Forgot password error: resetToken is not defined
+2025-04-11 15:52:23 [ERROR]: Forgot password error: resetToken is not defined
+2025-04-11 17:23:40 [ERROR]: Reset password error: jwt must be provided
+2025-04-11 17:24:50 [ERROR]: Reset password error: jwt must be provided

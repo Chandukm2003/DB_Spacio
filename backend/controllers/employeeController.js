@@ -4,17 +4,17 @@ const generateEmployeeCode = require('../utils/employeeCodeGenerator');
 const generatePassword = require('../utils/passwordGenerator');
 const sendMail = require('../utils/mailer');
 const jwt = require('jsonwebtoken');
-const logger = require('../utils/logger'); // Fixed relative path here
+const logger = require('../utils/logger');
 
 const registerEmployee = async (req, res) => {
   const {
     first_name, last_name, email,
     manager_name, department,
-    joining_date, employment_type, vendor_name
+    joining_date, employment_type, vendor_name, role
   } = req.body;
 
   try {
-    if (!first_name || !last_name || !email || !joining_date || !employment_type || !department) {
+    if (!first_name || !last_name || !email || !joining_date || !employment_type || !department || !role) {
       logger.warn('Registration failed: Missing required fields');
       return res.status(400).json({ message: 'Missing required fields' });
     }
@@ -33,7 +33,7 @@ const registerEmployee = async (req, res) => {
     const employee_code = await generateEmployeeCode(department);
     const tempPassword = generatePassword();
     const hashedPassword = await bcrypt.hash(tempPassword, 10);
-    const companyEmail = `${first_name.toLowerCase()}.${last_name.toLowerCase()}@digitalbanket.ai`;
+    const companyEmail = `${first_name.toLowerCase()}${last_name.toLowerCase()}@digitalblanket.ai`;
 
     const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '15m' });
     const resetLink = `http://localhost:3000/reset-password?token=${token}`;
@@ -42,12 +42,12 @@ const registerEmployee = async (req, res) => {
 
     await pool.query(
       `INSERT INTO employees
-        (first_name, last_name, email, manager_name, employee_code, joining_date, employment_type, vendor_name, password_hash, temp_password, company_email)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
+        (first_name, last_name, email, manager_name, employee_code, joining_date, employment_type, vendor_name, password_hash, temp_password, company_email, role, department)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`,
       [
         first_name, last_name, email, manager_name,
         employee_code, joining_date, employment_type,
-        vendor_name || null, hashedPassword, true, companyEmail
+        vendor_name || null, hashedPassword, true, companyEmail, role, department
       ]
     );
 
@@ -97,11 +97,40 @@ const resetPassword = async (req, res) => {
   }
 };
 
-const loginEmployee = async (req, res) => {
-  const { email, password } = req.body;
+const setNewPassword = async (req, res) => {
+  const { token, newPassword } = req.body;
 
   try {
-    const result = await pool.query('SELECT * FROM employees WHERE email = $1', [email]);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const { companyEmail } = decoded;
+
+    const result = await pool.query('SELECT * FROM employees WHERE company_email = $1', [companyEmail]);
+    const employee = result.rows[0];
+
+    if (!employee) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    await pool.query(
+      'UPDATE employees SET password_hash = $1, temp_password = false WHERE company_email = $2',
+      [hashedNewPassword, companyEmail]
+    );
+
+    logger.info(`Password updated via forgot password flow for ${companyEmail}`);
+    res.json({ message: 'Password updated successfully' });
+
+  } catch (err) {
+    logger.error(`Set new password error: ${err.message}`, { stack: err.stack });
+    res.status(400).json({ message: 'Invalid or expired token' });
+  }
+};
+
+const loginEmployee = async (req, res) => {
+  const { email, password, role } = req.body;
+
+  try {
+    const result = await pool.query('SELECT * FROM employees WHERE company_email = $1', [email]);
     const user = result.rows[0];
 
     if (!user) {
@@ -113,12 +142,11 @@ const loginEmployee = async (req, res) => {
       return res.status(401).json({ message: 'Invalid password' });
     }
 
-    // 🧙‍♂️ Add the role in the token here!
     const token = jwt.sign(
       {
         employee_id: user.employee_id,
         email: user.email,
-        role: user.role // 👑 This makes your admin powers work
+        role: user.role
       },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
@@ -131,4 +159,35 @@ const loginEmployee = async (req, res) => {
   }
 };
 
-module.exports = { registerEmployee, resetPassword, loginEmployee };
+const forgotPassword = async (req, res) => {
+  try {
+    const { companyEmail } = req.body;
+
+    const result = await pool.query('SELECT * FROM employees WHERE company_email = $1', [companyEmail]);
+    const user = result.rows[0];
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const resetToken = jwt.sign({ companyEmail }, process.env.JWT_SECRET, { expiresIn: '15m' });
+    const resetLink = `http://localhost:3000/set-new-password?token=${resetToken}`;
+
+    await sendMail(user.company_email, user.employee_code, null, resetLink, user.company_email, true);
+
+    logger.info(`Forgot password link sent to personal email: ${user.company_email}`);
+    res.json({ message: 'Reset link sent to your personal email' });
+
+  } catch (error) {
+    logger.error('Forgot password error:', error.message);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+module.exports = {
+  registerEmployee,
+  resetPassword,          // for temp password flow
+  setNewPassword,         // for forgot password flow
+  loginEmployee,
+  forgotPassword
+};
