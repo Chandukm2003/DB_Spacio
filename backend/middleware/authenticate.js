@@ -3,8 +3,8 @@ require('dotenv').config();
 
 const authenticate = (req, res, next) => {
   try {
-    // Extract token from Authorization header
     const authHeader = req.header('Authorization');
+
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ message: 'No token, authorization denied' });
     }
@@ -12,11 +12,11 @@ const authenticate = (req, res, next) => {
     const token = authHeader.split(' ')[1];
     console.log('[AUTH] Token received:', token); // 🔍 Debug log
 
-    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log('[AUTH] Decoded token:', decoded); // 🔍 Debug log
 
-    req.user = decoded; // Attach decoded user info to request
+    req.user = decoded; // decoded contains { id, role, ... }
+
     next();
   } catch (err) {
     console.error('[AUTH ERROR]', err.message);

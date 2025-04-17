@@ -1,4 +1,5 @@
-const pool = require('../config/db');
+const mongoose = require('mongoose');
+const SerialTracker = require('../models/SerialTracker'); // Create this model if not already created
 
 const generateEmployeeCode = async (department) => {
   const companyCode = 'COM';
@@ -7,18 +8,28 @@ const generateEmployeeCode = async (department) => {
 
   let serial = 1;
 
-  const result = await pool.query('SELECT serial_no FROM serialtracker WHERE year = $1', [year]);
+  try {
+    // Check if the serial exists for the current year
+    const serialRecord = await SerialTracker.findOne({ year });
 
-  if (result.rows.length > 0) {
-    serial = result.rows[0].serial_no + 1;
-    await pool.query('UPDATE serialtracker SET serial_no = $1 WHERE year = $2', [serial, year]);
-  } else {
-    await pool.query('INSERT INTO serialtracker (year, serial_no) VALUES ($1, $2)', [year, serial]);
+    if (serialRecord) {
+      serial = serialRecord.serial_no + 1;  // Increment the serial number
+      serialRecord.serial_no = serial;  // Update the serial number in the record
+      await serialRecord.save();
+    } else {
+      // If no record exists for the year, create a new record
+      const newSerialRecord = new SerialTracker({ year, serial_no: serial });
+      await newSerialRecord.save();
+    }
+
+    // Format the serial number to 7 digits
+    const serialStr = serial.toString().padStart(7, '0');
+
+    return `${companyCode}${year}${deptCode}${serialStr}`;
+  } catch (error) {
+    console.error('❌ Error generating employee code:', error);
+    throw error; // Propagate the error for further handling
   }
-
-  const serialStr = serial.toString().padStart(7, '0');
-
-  return `${companyCode}${year}${deptCode}${serialStr}`;
 };
 
 module.exports = generateEmployeeCode;

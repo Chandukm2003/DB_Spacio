@@ -6,15 +6,13 @@ const {
   resetPassword,
   loginEmployee,
   forgotPassword,
+  setNewPassword
 } = require('../controllers/employeeController');
 
-const setNewPassword = require('../controllers/setNewPassword'); // 💥 Import this controller
-
-// 🛠️ Routes
 router.post('/register', registerEmployee);
-router.post('/reset-password', resetPassword); // for temp password reset
+router.post('/reset-password', resetPassword);
 router.post('/login', loginEmployee);
-router.post('/forgot-password', forgotPassword); // for sending email with token
-router.post('/set-new-password', setNewPassword); // 💥 New route for final password update
+router.post('/forgot-password', forgotPassword);
+router.post('/set-new-password', setNewPassword);
 
 module.exports = router;

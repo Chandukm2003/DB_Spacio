@@ -1,0 +1,285 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  body {
+    background: #f9f9f9;
+    color: #1c1c1e;
+  }
+  
+  .container {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .sidebar {
+    width: 60px;
+    background: #fff;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+  }
+  
+  .sidebar li {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    background: #eee;
+  }
+  
+  .sidebar li.active {
+    background: #4e4eec;
+  }
+  
+  .main {
+    flex: 1;
+    padding: 2rem;
+    background: #fff;
+  }
+  
+  .breadcrumbs {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 1rem;
+  }
+  
+  .breadcrumbs span {
+    color: #000;
+  }
+  
+  .header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+  
+  .header h1 {
+    font-size: 28px;
+    margin-bottom: 1rem;
+  }
+  
+  .header-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .date-picker {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .date-picker button {
+    padding: 6px 12px;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .date-picker span {
+    font-weight: bold;
+  }
+  
+  .view-switcher button {
+    padding: 6px 12px;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .view-switcher .active {
+    background: #d1d1ff;
+    font-weight: bold;
+  }
+  
+  .actions {
+    margin-left: auto;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .actions input {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .actions .quick-add {
+    padding: 6px 12px;
+    background: #4444ee;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .calendar {
+    border-top: 1px solid #ddd;
+  }
+  
+  .calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: #fafafa;
+    padding: 0.5rem;
+    font-weight: bold;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .calendar-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .day {
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 0.5rem;
+    min-height: 140px;
+    position: relative;
+    background: #fff;
+    font-size: 14px;
+  }
+  
+  .date {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  
+  .event {
+    background: #f1f1f1;
+    padding: 4px 6px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    font-size: 13px;
+    color: #333;
+    display: inline-block;
+  }
+  
+  .sub-event {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+  }
+  
+  .sub-event .completed {
+    font-weight: bold;
+    color: green;
+    margin-left: 4px;
+  }
+  
+  .workflow {
+    font-size: 12px;
+    color: #444;
+    margin-bottom: 4px;
+  }
+  
+  .workflow .fraction {
+    font-weight: bold;
+    margin-left: 4px;
+  }
+  
+  .task-list {
+    list-style: none;
+    padding-left: 1rem;
+    font-size: 12px;
+    color: #333;
+  }
+  
+  .task-list li {
+    margin-bottom: 2px;
+  }
+  .sick-leave {
+    background: #e0e0e0;
+    color: #444;
+    border-radius: 12px;
+    padding: 2px 8px;
+    display: inline-block;
+    font-weight: 500;
+  }
+  
+  .active-day {
+    background: #f9f9f9;
+    border: 1.5px solid #444;
+    border-radius: 6px;
+  }
+  body {
+    display: flex;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .sidebar {
+    width: 60px;
+    background-color: #1f1f1f;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
+  
+  .logo {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .nav-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    flex-grow: 1;
+    margin-top: 40px;
+  }
+  
+  .icon {
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .icon.active,
+  .icon:hover {
+    background-color: #333;
+  }
+  
+  .profile img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+  }
+  
+  
+  
+  .container {
+    margin-left: 80px;
+    padding: 20px;
+    flex-grow: 1;
+  }
+  

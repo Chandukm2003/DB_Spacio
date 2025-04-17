@@ -1,19 +1,25 @@
+// server.js
+
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const swaggerUi = require('swagger-ui-express');
 require('dotenv').config();
 
+const connectDB = require('./config/db'); // ✅ MongoDB connection file
 const employeeRoutes = require('./routes/employeeRoutes');
 const adminRoutes = require('./routes/admin');
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./swagger'); // 🔥 Create this file (I'll guide you below)
+const swaggerSpec = require('./swagger'); // ✅ Swagger config
+
+// Connect to MongoDB
+connectDB();
 
 const app = express();
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(morgan('dev')); // ✅ Logger that prints each request to console
+app.use(morgan('dev'));
 
 // Routes
 app.use('/api/employees', employeeRoutes);
@@ -24,12 +30,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Root Route
 app.get('/', (req, res) => {
-  res.send('Employment Registration API Running!');
+  res.send('🚀 Employment Registration API Running with MongoDB!');
 });
 
 // Server Start
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
-  console.log(`📘 Swagger Docs available at http://localhost:${PORT}/api-docs`);
+  console.log(`✅ Server is running at: http://localhost:${PORT}`);
+  console.log(`📘 Swagger Docs: http://localhost:${PORT}/api-docs`);
 });

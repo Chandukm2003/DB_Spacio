@@ -22,3 +22,5 @@
 2025-04-11 15:52:23 [ERROR]: Forgot password error: resetToken is not defined
 2025-04-11 17:23:40 [ERROR]: Reset password error: jwt must be provided
 2025-04-11 17:24:50 [ERROR]: Reset password error: jwt must be provided
+2025-04-13 18:07:57 [ERROR]: Reset password error: column "password" of relation "employees" does not exist
+2025-04-13 18:08:12 [ERROR]: Reset password error: column "password" of relation "employees" does not exist
